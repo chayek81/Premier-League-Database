@@ -1,0 +1,333 @@
+BEGIN;
+CREATE DATABASE IF NOT EXISTS PLData;
+USE PLData;
+
+CREATE TABLE Manager (
+	Man_ID INTEGER,
+	Man_Lname VARCHAR(45),
+	Man_Fname VARCHAR(45),
+	Man_Nat VARCHAR(45),
+	Man_DOB DATE,
+	PRIMARY KEY(Man_ID)
+);
+INSERT INTO Manager VALUES('1','Arteta', 'Mikel' , 'Spain' , '1982-3-26');
+INSERT INTO Manager VALUES('2','Gerrard', 'Steven' , 'England' , '1980-5-30');
+INSERT INTO Manager VALUES('3','Frank', 'Thomas' , 'Denmark' , '1973-10-9');
+INSERT INTO Manager VALUES('4','Potter', 'Graham' , 'England' , '1975-5-20');
+INSERT INTO Manager VALUES('5','Dyche', 'Sean' , 'England' , '1971-6-28');
+INSERT INTO Manager VALUES('6','Tuchel', 'Thomas' , 'Germany' , '1973-8-29');
+INSERT INTO Manager VALUES('7','Vieira', 'Patrick' , 'France' , '1976-6-23');
+INSERT INTO Manager VALUES('8','Lampard', 'Frank' , 'England' , '1978-6-20');
+INSERT INTO Manager VALUES('9','Marsch', 'Jesse' , 'United States' , '1973-11-8');
+INSERT INTO Manager VALUES('10','Rodgers', 'Brendan' , 'Northern Ireland' , '1973-1-26');
+INSERT INTO MANAGER VALUES ('11' , 'Klopp' , 'Jurgen' , 'Germany' , '1967-6-16');
+INSERT INTO MANAGER VALUES ('12' , 'Guardiola' , 'Pep' , 'Spanish' , '1982-1-18');
+INSERT INTO MANAGER VALUES ('13' , 'Rangnick' , 'Ralf' , 'Germany' , '1958-6-29');
+INSERT INTO MANAGER VALUES ('14' , 'Howe' , 'Eddie' , 'England' , '1977-11-29');
+INSERT INTO MANAGER VALUES ('15' , 'Smith' , 'Dean' , 'England' , '1971-3-19');
+INSERT INTO MANAGER VALUES ('16' , 'Hasenhuttl' , 'Ralph' , 'Austria' , '1967-8-9');
+INSERT INTO MANAGER VALUES ('17' , 'Conte' , 'Antonio' , 'Italy' , '1969-7-31');
+INSERT INTO MANAGER VALUES ('18' , 'Hodgson' , 'Roy' , 'England' , '1947-8-9');
+INSERT INTO MANAGER VALUES ('19' , 'Moyes' , 'David' , 'England' , '1963-4-25');
+INSERT INTO MANAGER VALUES ('20' , 'Lage' , 'Bruno' , 'Portugal' , '1976-5-12');
+
+/* -- */
+CREATE TABLE Club (
+	Club_ID INTEGER,
+	Club_Name VARCHAR(45),
+	Club_Stadium VARCHAR(45),
+	Club_City VARCHAR(60),
+	Club_Capacity INTEGER,
+	Manager_Man_ID INTEGER,
+	PRIMARY KEY(Club_ID),
+	FOREIGN KEY(Manager_Man_ID) REFERENCES Manager(Man_ID)
+);	
+INSERT INTO Club VALUES('1','Arsenal','Emirates Stadium','London','60260','1');
+INSERT INTO Club VALUES('2','Aston Villa','Villa Park','Birmingham ','42682','2');
+INSERT INTO Club VALUES('3','Brentford','Brentford Community Stadium','Brentford','17250','3');
+INSERT INTO Club VALUES('4','Brighton and Hove Albion','Amex Stadium','Brighton','30666','4');
+INSERT INTO Club VALUES('5','Burnley','Turf Moor','Lancashire','21944','5');
+INSERT INTO Club VALUES('6','Chelsea','Stamford Bridge','London','40853','6');
+INSERT INTO Club VALUES('7','Crystal Palace','Selhurst Park','London','25486','7');
+INSERT INTO Club VALUES('8','Everton','Goodison Park','Liverpool','39221','8');
+INSERT INTO Club VALUES('9','Leeds United','Elland Road','Leeds','37890','9');
+INSERT INTO Club VALUES('10','Leicester City','King Power Stadium','Leicester','32273','10');
+INSERT INTO Club VALUES ('11', 'Liverpool', 'Anfield', 'Liverpool', '53394', '11');
+INSERT INTO Club VALUES ('12', 'Manchester City', 'Etihad Stadium', 'Manchester','53400', '12');
+INSERT INTO Club VALUES ('13', 'Manchester United', 'Old Trafford', 'Manchester', '74140', '13');
+INSERT INTO Club VALUES ('14', 'Newcastle United', 'St. James Park', 'Newcastle','52405', '14');
+INSERT INTO Club VALUES ('15', 'Norwich City', 'Carrow Road', 'Norwich', '27359', '15');
+INSERT INTO Club VALUES ('16', 'Southampton', 'St. Marys Stadium', 'Southampton', '32505', '16');
+INSERT INTO Club VALUES ('17', 'Tottenham Hotspur', 'Tottenham Hotspur Stadium', 'London','62850', '17');
+INSERT INTO Club VALUES ('18', 'Watford', 'Vicarage Road', 'Watford', '21577', '18');
+INSERT INTO Club VALUES ('19', 'West Ham United', 'London Stadium', 'London', '80000', '19');
+INSERT INTO Club VALUES ('20', 'Wolverhmapton Wanderers', 'Molineux Stadium', 'Wolverhampton', '31700', '20');
+
+/* -- */
+CREATE TABLE National_Team (
+	Nat_Team_Country VARCHAR(45) PRIMARY KEY,
+	Nat_Team_Stadium VARCHAR(45),
+	Nat_Team_City VARCHAR(60),
+	Nat_Team_Capacity INTEGER
+);
+INSERT INTO National_Team VALUES('Belgium','King Baudouin Stadium','Brussels','50093');
+INSERT INTO National_Team VALUES('Brazil','Maracanã Stadium','Rio de Janeiro','78838');
+INSERT INTO National_Team VALUES('France','Stade de France','Saint-Denis','81338');
+INSERT INTO National_Team VALUES('Netherlands','Johan Cruijff ArenA','Amsterdam','55500');
+INSERT INTO National_Team VALUES('Egypt','Cairo International Stadium','Cairo','75000');
+INSERT INTO National_Team VALUES('Spain','Santiago Bernabéu Stadium','Madrid','81044');
+INSERT INTO National_Team VALUES('Italy','Stadio Olimpico','Rome','72698');
+INSERT INTO National_Team VALUES('England','Wembley Stadium','Wembley','90000');
+INSERT INTO National_Team VALUES('Portugal','Estádio do Dragão','Porto','50033');
+INSERT INTO National_Team VALUES('Germany','Allianz Arena','Munich','75024');
+
+/* -- */
+CREATE TABLE Player (
+	Player_ID INTEGER,
+  	  Player_Jersey_Num INTEGER,
+	Player_Lname VARCHAR(45),
+	Player_Fname VARCHAR(45),
+   	 Player_Nat VARCHAR(45),
+	Player_DOB DATE,
+	Player_Height INTEGER,
+	Player_Weight Decimal(5,2),
+	Player_Goals INTEGER,
+	Player_Assists INTEGER,
+	Player_Pos VARCHAR(45),
+	Player_Val_USD INTEGER,
+	Nat_Team_Country VARCHAR(45),
+	Club_Club_ID INTEGER NOT NULL,
+	PRIMARY KEY(Player_ID),
+	FOREIGN KEY(Nat_Team_Country) REFERENCES National_Team(Nat_Team_Country),
+    FOREIGN KEY(Club_Club_ID) REFERENCES Club(Club_ID)	
+);
+INSERT INTO Player VALUES('1','7','Saka','Bukayo','England','2001-9-5','178','65','9','5','Midfielder','71500000','England','1');
+INSERT INTO Player VALUES('2','35','Martinelli','Gabriel','Brazil','2001-6-18','178','75','5','3','Forward','30800000',NULL,'1');
+INSERT INTO Player VALUES('3','23','Coutinho','Philippe','Brazil','1992-6-12','172','68','4','3','Midfielder','19800000','Brazil','2');
+INSERT INTO Player VALUES('4','18','Young','Ashley','England','1985-7-9','175','65','0','2','Defender','1100000',NULL,'2');
+INSERT INTO Player VALUES('5','1','Raya','David','Spain','1995-9-15','183','80','0','0','Goalkeeper','19800000','Spain','3');
+INSERT INTO Player VALUES('6','21','Eriksen','Christian','Denmark','1992-2-14','182','76','0','1','Midfielder','16500000',NULL,'3');
+INSERT INTO Player VALUES('7','9','Maupay','Neal','France','1996-8-14','173','69','8','2','Forward','22000000',NULL,'4');
+INSERT INTO Player VALUES('8','4','Webster','Adam','England','1995-1-4','191','75','2','0','Defender','19800000',NULL,'4');
+INSERT INTO Player VALUES('9','18','Westwood','Ashley','England','1990-4-1','175','80','0','3','Midfielder','4400000',NULL,'5');
+INSERT INTO Player VALUES('10','9','Weghorst','Wout','Netherlands','1992-8-7','197','84','1','2','Forward','22000000','Netherlands','5');
+INSERT INTO Player VALUES('11','19','Mount','Mason','England','1999-1-10','178','74','8','7','Midfielder','82500000','England','6');
+INSERT INTO Player VALUES('12','7','Kanté','NGolo','France','1991-3-29','168','72','2','3','Midfielder','55000000','France','6');
+INSERT INTO Player VALUES('13','13','Guaita','Vicente','Spain','1987-1-10','190','80','0','0','Goalkeeper','1650000',NULL,'7');
+INSERT INTO Player VALUES('14','3','Mitchell','Tyrick','England','1999-9-1','175','66','0','2','Defender','15400000',NULL,'7');
+INSERT INTO Player VALUES('15','5','Keane','Michael','England','1993-1-11','191','82','2','2','Defender','27500000',NULL,'8');
+INSERT INTO Player VALUES('16','24','Gordon','Anthony','England','2001-2-24','182','65','3','2','Forward','8800000',NULL,'8');
+INSERT INTO Player VALUES('17','10',NULL,'Raphinha','Brazil','1996-12-14','176','68','9','3','Forward','44000000','Brazil','9');
+INSERT INTO Player VALUES('18','1','Meslier','Illan','France','2000-3-2','193','74','0','0','Goalkeeper','22000000',NULL,'9');
+INSERT INTO Player VALUES('19','10','Maddison','James','England','1996-11-23','175','73','7','3','Midfielder','55000000',NULL,'10');
+INSERT INTO Player VALUES('20','17','Pérez','Ayoze','Spain','1993-7-29','178','72','0','2','Forward','16500000',NULL,'10');
+INSERT INTO Player VALUES ('21','11', 'Salah', 'Mohamed', 'Egypt', '1992-6-15', '175', '73', '20',  '10', 'Forward', '110000000', 'Egypt', '11');
+INSERT INTO Player VALUES ('22','4', 'Van Dijk', 'Virgil', 'Netherlands', '1991-7-8', '193', '92', '3', '1', 'Defender', '60500000', 'Netherlands', '11');
+
+INSERT INTO Player VALUES ('23','17', 'De Bruyne', 'Kevin', 'Belgium', '1991-6-28', '181', '70', '9', '3', 'Midfielder', '99000000', 'Belgium', '12');  
+INSERT INTO Player VALUES('24','14', 'Laporte', 'Aymeric', 'France', '1994-5-27', '189', '85', '3', '0', 'Defender', '49500000', 'Spain', '12');
+
+INSERT INTO Player VALUES('25','1', 'De Gea', 'David', 'Spain', '1990-11-7', '189', '76', '0', '0', 'Goalkeeper', '19800000', 'Spain', '13');  
+INSERT INTO Player VALUES('26','7', 'Ronaldo', 'Cristiano','Portugal', '1985-2-5', '187', '84', '12', '3', 'Forward', '38500000', 'Portugal', '13');
+
+INSERT INTO Player VALUES('27', '15','Trippier', 'Kierran', 'England', '1990-9-19', '173', '71', '2', '0', 'Defender', '19800000', 'England', '14');  
+INSERT INTO Player VALUES('28', '9','Wilson', 'Callum', 'England', '1991-6-28', '181', '70', '9', '3', 'Midfielder', '99000000', 'Belgium', '14');  
+
+INSERT INTO Player VALUES('29','21',  'Williams', 'Brandon', 'England', '2000-9-3', '180', '63', '0', '1', 'Defender', '11000000', 'England', '15');  
+INSERT INTO Player VALUES('30','1',  'Krul', 'Tim', 'Netherlands', '1988-4-3', '193', '84', '0', '0', 'Forward', '5500000', 'Netherlands', '15');  
+
+INSERT INTO Player VALUES('31','8', 'Ward-Prowse', 'James', 'England', '1994-11-1', '177','66', '6', '4', 'Midfield','35200000', 'England', '16');
+INSERT INTO Player VALUES('32','11', 'Redmond', 'Nathan', 'England', '1994-3-6', '173', '75', '0', '5', 'Forward','19800000', 'England', '16');
+
+INSERT INTO Player VALUES('33','1', 'Lloris', 'Hugo', 'France', '1986-12-26', '188', '82', '0', '0', 'Goalkeeper','7700000', 'France', '17');
+INSERT INTO Player VALUES('34','27', 'Moura', 'Lucas', 'Brazil', '1992-8-13', '172', '70', '2', '4', 'Forward','24200000', 'Brazil', '17');
+
+INSERT INTO Player VALUES('35','19',  'Sissoko', 'Moussa', 'France', '1989-8-16', '187', '90', '2', '1', 'Midfielder','8800000', 'France', '18');
+INSERT INTO Player VALUES('36','3', 'Rose', 'Danny', 'England', '1990-7-2', '173', '74', '0', '0', 'Defender','27500000', 'England', '18');
+
+INSERT INTO Player VALUES('37', '8','Fornals', 'Pablo', 'Spain', '1996-2-22', '178', '67', '6', '3', 'Midfielder','22000000', 'Spain', '19');
+INSERT INTO Player VALUES('38', '13','Areola', 'Alphonse', 'France', '1993-2-27', '195', '94', '0', '0', 'Goalkeeper','13200000', 'France', '19');
+
+INSERT INTO Player VALUES('39','8', 'Neves', 'Ruben', 'Portugal', '1997-3-13', '180', '80', '4', '2', 'Midfielder','44000000', 'Portugal', '20');
+INSERT INTO Player VALUES('40','28', 'Moutinho', 'Joao', 'Portugal', '1986-9-8', '170', '61', '2', '1', 'Midfielder','2750000', 'Portugal', '20');
+
+/* -- */
+
+CREATE TABLE Player_Record (
+	Player_Player_ID INTEGER,
+    Team_Start_Date DATE,
+	Club_Club_ID INTEGER,
+	PRIMARY KEY(Player_Player_ID,Team_Start_Date,Club_Club_ID),
+	FOREIGN KEY(Player_Player_ID) REFERENCES Player(Player_ID),
+	FOREIGN KEY(Club_Club_ID) REFERENCES Club(Club_ID)
+);
+
+INSERT INTO Player_Record VALUES('1','2019-7-1','1');
+INSERT INTO Player_Record VALUES('2','2019-7-2','1');
+INSERT INTO Player_Record VALUES('3','2013-1-30','11');
+INSERT INTO Player_Record VALUES('3','2022-1-7','2');
+INSERT INTO Player_Record VALUES('4','2007-1-23','2');
+INSERT INTO Player_Record VALUES('4','2011-7-1','13');
+INSERT INTO Player_Record VALUES('4','2021-7-1','2');
+INSERT INTO Player_Record VALUES('5','2019-7-6','3');
+INSERT INTO Player_Record VALUES('6','2013-8-30','17');
+INSERT INTO Player_Record VALUES('6','2022-1-31','3');
+INSERT INTO Player_Record VALUES('7','2017-7-14','3');
+INSERT INTO Player_Record VALUES('7','2019-8-5','4');
+INSERT INTO Player_Record VALUES('8','2019-8-3','4');
+INSERT INTO Player_Record VALUES('9','2012-8-31','2');
+INSERT INTO Player_Record VALUES('9','2017-1-31','5');
+INSERT INTO Player_Record VALUES('10','2022-1-31','5');
+INSERT INTO Player_Record VALUES('11','2019-7-1','6');
+INSERT INTO Player_Record VALUES('12','2015-8-3','10');
+INSERT INTO Player_Record VALUES('12','2016-7-16','6');
+INSERT INTO Player_Record VALUES('13','2018-7-1','7');
+INSERT INTO Player_Record VALUES('14','2020-7-1','7');
+INSERT INTO Player_Record VALUES('15','2012-11-6','10');
+INSERT INTO Player_Record VALUES('15','2014-9-1','5');
+INSERT INTO Player_Record VALUES('15','2017-7-3','8');
+INSERT INTO Player_Record VALUES('16','2020-1-1','8');
+INSERT INTO Player_Record VALUES('17','2020-10-5','9');
+INSERT INTO Player_Record VALUES('18','2019-8-8','9');
+INSERT INTO Player_Record VALUES('18','2020-7-27','9');
+INSERT INTO Player_Record VALUES('19','2016-2-1','15');
+INSERT INTO Player_Record VALUES('19','2018-7-1','10');
+INSERT INTO Player_Record VALUES('20','2014-7-1','14');
+INSERT INTO Player_Record VALUES('20','2019-7-4','10');
+INSERT INTO Player_Record VALUES ('21', '2014-1-26', '6');
+INSERT INTO Player_Record VALUES ('21', '2017-7-1', '11');
+INSERT INTO Player_Record VALUES ('22', '2015-9-1', '16');
+INSERT INTO Player_Record VALUES ('22', '2018-1-1', '11');
+INSERT INTO Player_Record VALUES ('23','2012-1-1', '6');
+INSERT INTO Player_Record VALUES ('23', '2015-8-15', '12');
+INSERT INTO Player_Record VALUES ('24', '2018-1-30', '12');
+INSERT INTO Player_Record VALUES ('25', '2011-1-1', '13');
+INSERT INTO Player_Record VALUES ('26', '2021-8-31', '13');
+INSERT INTO Player_Record VALUES ('27', '2011-7-6', '5');
+INSERT INTO Player_Record VALUES ('27', '2015-7-1', '17');
+INSERT INTO Player_Record VALUES ('27', '2022-1-7', '14');
+INSERT INTO Player_Record VALUES ('28', '2020-9-7', '14');
+INSERT INTO Player_Record VALUES ('29', '2019-7-1', '13');
+INSERT INTO Player_Record VALUES ('29', '2021-8-3', '15');
+INSERT INTO Player_Record VALUES ('30', '2017-1-30', '14');
+INSERT INTO Player_Record VALUES ('30', '2017-9-20', '4');
+INSERT INTO Player_Record VALUES ('30', '2018-7-24', '15');
+INSERT INTO Player_Record VALUES ('31', '2012-7-1', '16');
+INSERT INTO Player_Record VALUES ('32', '2013-7-4', '15');
+INSERT INTO Player_Record VALUES ('32', '2016-7-1', '16');
+INSERT INTO Player_Record VALUES ('33', '2012-8-31', '17');
+INSERT INTO Player_Record VALUES ('34', '2018-1-31', '17');
+INSERT INTO Player_Record VALUES ('35', '2013-1-21', '14');
+INSERT INTO Player_Record VALUES ('35', '2016-1-31', '17');
+INSERT INTO Player_Record VALUES ('35', '2021-8-27', '18');
+INSERT INTO Player_Record VALUES ('36', '2007-7-25', '17');
+INSERT INTO Player_Record VALUES ('36', '2021-7-1', '18');
+INSERT INTO Player_Record VALUES ('37', '2019-7-1', '19');
+INSERT INTO Player_Record VALUES ('38', '2021-7-9', '19');
+INSERT INTO Player_Record VALUES ('39', '2017-7-8', '20');
+INSERT INTO Player_Record VALUES ('40', '2018-7-24', '20');
+
+/* -- */
+
+CREATE TABLE Competition_Status (
+	Status_ID INTEGER,
+	Comp_Name VARCHAR(45),
+	Status_Name VARCHAR(45),
+	Status_Description VARCHAR(150),
+	PRIMARY KEY(Status_ID)
+);
+INSERT INTO Competition_Status Values('1', 'Carabao Cup', 'Round of 64', 'Currently in stage where 64 teams are competing');
+INSERT INTO Competition_Status Values('2', 'Carabao Cup', 'Eliminated Round of 64', 'Eliminated in stage where 64 teams are competing');
+
+INSERT INTO Competition_Status Values('3', 'Carabao Cup', 'Round of 32', 'Currently in stage where 32 teams are competing');
+INSERT INTO Competition_Status Values('4', 'Carabao Cup', 'Eliminated Round of 32', 'Eliminated in stage where 32 teams are competing');
+
+INSERT INTO Competition_Status Values('5', 'Carabao Cup', 'Round of 16', 'Currently in stage where 16 teams are competing');
+INSERT INTO Competition_Status Values('6', 'Carabao Cup', 'Eliminated Round of 16', 'Eliminated in stage where 16 teams are competing');
+
+INSERT INTO Competition_Status Values('7', 'Carabao Cup', 'Quarterfinal', 'Currently in Quarterfinal Stage');
+INSERT INTO Competition_Status Values('8', 'Carabao Cup', 'Eliminated Quarterfinal', 'Eliminated in Quarterfinal Stage');
+
+INSERT INTO Competition_Status Values('9', 'Carabao Cup', 'Semifinal', 'Currently in Semifinal Stage');
+INSERT INTO Competition_Status Values('10', 'Carabao Cup', 'Eliminated Semifinal', 'Eliminated in Semifinal Stage');
+
+INSERT INTO Competition_Status Values('11', 'Carabao Cup', 'Final', 'Currently in Final Stage');
+INSERT INTO Competition_Status Values('12', 'Carabao Cup', 'Eliminated Final', 'Eliminated in Final Stage');
+
+INSERT INTO Competition_Status Values('13', 'Carabao Cup', 'Champion', 'Winner of Competition');
+
+INSERT INTO Competition_Status Values('14', 'FA Cup', 'Round of 64', 'Currently in stage where 64 teams are competing');
+INSERT INTO Competition_Status Values('15', 'FA Cup', 'Eliminated Round of 64', 'Eliminated in stage where 64 teams are competing');
+
+INSERT INTO Competition_Status Values('16', 'FA Cup', 'Round of 32', 'Currently in stage where 32 teams are competing');
+INSERT INTO Competition_Status Values('17', 'FA Cup', 'Eliminated Round of 32', 'Eliminated in stage where 32 teams are competing');
+
+INSERT INTO Competition_Status Values('18', 'FA Cup', 'Round of 16', 'Currently in stage where 16 teams are competing');
+INSERT INTO Competition_Status Values('19', 'FA Cup', 'Eliminated Round of 16', 'Eliminated in stage where 16 teams are competing');
+
+INSERT INTO Competition_Status Values('20', 'FA Cup', 'Quarterfinal', 'Currently in Quarterfinal Stage');
+INSERT INTO Competition_Status Values('21', 'FA Cup', 'Eliminated Quarterfinal', 'Eliminated in Quarterfinal Stage');
+
+INSERT INTO Competition_Status Values('22', 'FA Cup', 'Semifinal', 'Currently in Semifinal Stage');
+INSERT INTO Competition_Status Values('23', 'FA Cup', 'Eliminated Semifinal', 'Eliminated in Semifinal Stage');
+
+INSERT INTO Competition_Status Values('24', 'FA Cup', 'Final', 'Currently in Final Stage');
+INSERT INTO Competition_Status Values('25', 'FA Cup', 'Eliminated Final', 'Eliminated in Final Stage');
+
+INSERT INTO Competition_Status Values('26', 'FA Cup', 'Champion', 'Winner of Competition');
+
+/* -- */
+CREATE TABLE Competition_Status_has_Club (
+	Club_Club_ID INTEGER,
+    Competition_Status_Status_ID INTEGER,
+	PRIMARY KEY(Club_Club_ID, Competition_Status_Status_ID),
+	FOREIGN KEY(Competition_Status_Status_ID) REFERENCES Competition_Status(Status_ID),
+	FOREIGN KEY(Club_Club_ID) REFERENCES Club(Club_ID)
+);
+INSERT INTO Competition_Status_has_Club VALUES ('1', '10');
+INSERT INTO Competition_Status_has_Club VALUES ('1', '15');
+INSERT INTO Competition_Status_has_Club VALUES ('2', '4');
+INSERT INTO Competition_Status_has_Club VALUES ('2', '15');
+INSERT INTO Competition_Status_has_Club VALUES ('3', '8');
+INSERT INTO Competition_Status_has_Club VALUES ('3', '17');
+INSERT INTO Competition_Status_has_Club VALUES ('4', '6');
+INSERT INTO Competition_Status_has_Club VALUES ('4', '17');
+INSERT INTO Competition_Status_has_Club VALUES ('5', '6');
+INSERT INTO Competition_Status_has_Club VALUES ('5', '15');
+INSERT INTO Competition_Status_has_Club VALUES ('6', '12');
+INSERT INTO Competition_Status_has_Club VALUES ('6', '22');
+INSERT INTO Competition_Status_has_Club VALUES ('7', '2');
+INSERT INTO Competition_Status_has_Club VALUES ('7', '22');
+INSERT INTO Competition_Status_has_Club VALUES ('8', '4');
+INSERT INTO Competition_Status_has_Club VALUES ('8', '21');
+INSERT INTO Competition_Status_has_Club VALUES ('9', '6');
+INSERT INTO Competition_Status_has_Club VALUES ('9', '15');
+INSERT INTO Competition_Status_has_Club VALUES ('10', '8');
+INSERT INTO Competition_Status_has_Club VALUES ('10', '17');
+INSERT INTO Competition_Status_has_Club VALUES ('11', '13');
+INSERT INTO Competition_Status_has_Club VALUES ('11', '22'); 
+INSERT INTO Competition_Status_has_Club VALUES ('12', '6');
+INSERT INTO Competition_Status_has_Club VALUES ('12', '22');
+INSERT INTO Competition_Status_has_Club VALUES ('13', '4');
+INSERT INTO Competition_Status_has_Club VALUES ('13', '17');
+INSERT INTO Competition_Status_has_Club VALUES ('14', '2');
+INSERT INTO Competition_Status_has_Club VALUES ('14', '15'); 
+INSERT INTO Competition_Status_has_Club VALUES ('15', '4');
+INSERT INTO Competition_Status_has_Club VALUES ('15', '15');
+INSERT INTO Competition_Status_has_Club VALUES ('16', '6');
+INSERT INTO Competition_Status_has_Club VALUES ('16', '21'); 
+INSERT INTO Competition_Status_has_Club VALUES ('17', '10');
+INSERT INTO Competition_Status_has_Club VALUES ('17', '19'); 
+INSERT INTO Competition_Status_has_Club VALUES ('18', '4');
+INSERT INTO Competition_Status_has_Club VALUES ('18', '15'); 
+INSERT INTO Competition_Status_has_Club VALUES ('19', '8');
+INSERT INTO Competition_Status_has_Club VALUES ('19', '19');
+INSERT INTO Competition_Status_has_Club VALUES ('20', '4');
+INSERT INTO Competition_Status_has_Club VALUES ('20', '17'); 
+create view player_record_view1 AS SELECT PLAYER_LNAME, PLAYER_FNAME, CLUB_NAME, 
+                TEAM_START_DATE FROM player AS P JOIN player_record AS PR ON P.PLAYER_ID =
+                PR.PLAYER_PLAYER_ID JOIN club AS C ON C.CLUB_ID = PR.CLUB_CLUB_ID;
+create view comp_view AS
+ SELECT C.CLUB_ID, C.CLUB_NAME, CS.COMP_NAME, CS.STATUS_NAME FROM club
+                 AS C JOIN competition_status_has_club AS CSHC ON C.CLUB_ID = CSHC.CLUB_CLUB_ID JOIN
+                 competition_status AS CS ON CSHC.COMPETITION_STATUS_STATUS_ID = CS.STATUS_ID ORDER BY CLUB_ID;
